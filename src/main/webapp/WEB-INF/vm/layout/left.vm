@@ -1,0 +1,20 @@
+<div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+        <li class="active"><a href="/showUser">用户管理 <span class="sr-only">(current)</span></a></li>
+        <li><a href="/reflect/test">反射联系</a></li>
+        <li><a href="/rpc/test">rpc实验</a></li>
+        <li><a href="/group">集群管理</a></li>
+    </ul>
+    <ul class="nav nav-sidebar">
+        <li><a href="/redis/manager">Reids管理</a></li>
+        <li><a href="/redis/mq">模拟mq</a></li>
+        <li><a href="/redis/zk">模拟zk</a></li>
+        <li><a href="/redis/listener">监控redis使用</a></li>
+        <li><a href="/redis/extend">redis扩容</a></li>
+    </ul>
+    <ul class="nav nav-sidebar">
+        <li><a href="/zookeeper/manager">Zookeeper管理</a></li>
+        <li><a href="/zookeeper/mq">模拟mq</a></li>
+        <li><a href="/zookeeper/listenner">监控zookeeper</a></li>
+    </ul>
+</div>

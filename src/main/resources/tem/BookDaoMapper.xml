@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.sharper.dao.BookMapper" >
+	<!-- 多对一映射 -->
+	
+	<resultMap id="BookMap" type="cc.sharper.bean.Book">
+		<id column="book_id" property="id"  />
+		<result column="book_name" property="name" />
+		<result column="book_price" property="price" />
+		<association property="person" javaType="cc.sharper.bean.Person">
+			<id column="person_id" property="id"  />
+            <result column="person_loginId" property="loginId" />
+			<result column="person_password" property="password" />
+		</association>
+	</resultMap>
+	
+	<select id="queryAll"  resultMap="BookMap">
+		SELECT * FROM book
+	</select>
+	
+	 <select id="loadBookWithPerson" parameterType="java.lang.String" resultMap="BookMap">
+        select 
+            book.id                 as  book_id,
+            book.name       		as  book_name,
+            book.price         		as  book_price,
+            person.id               as  person_id,
+            person.loginId          as  person_loginId,
+            person.password         as  person_password
+        from book 
+        left outer join person  on person.id=book.userId
+        where book.id=#{book_id}
+    </select>
+	
+	
+	
+	
+	
+</mapper>

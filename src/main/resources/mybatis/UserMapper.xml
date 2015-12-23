@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cc.sharper.dao.UserMapper">
+
+    <sql id="USER_SELECT">
+        <![CDATA[
+                select
+                user.ID as id,
+                user.NICKNAME as nickname,
+                user.AGE as age,
+                user.CREATED_TIME as createdTime,
+                user.ADDRESS as address,
+                user.PASSWORD as password,
+                user.EMAIL as email,
+                user.JOB as job,
+                user.TEL as tel
+                from user
+        ]]>
+   </sql>
+
+
+
+    <select id="count" resultType="long" parameterType="cc.sharper.bean.User">
+        select count(1) from user
+    </select>
+
+    <select id="queryAllByParam" resultType="cc.sharper.bean.User" parameterType="cc.sharper.bean.User">
+        <include refid="USER_SELECT"/>
+    </select>
+
+</mapper>

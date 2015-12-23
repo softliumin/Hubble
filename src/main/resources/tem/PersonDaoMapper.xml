@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cc.sharper.dao.PersonMapper">
+
+	<resultMap id="PersonMap" type="cc.sharper.bean.Person">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="loginId" property="loginId" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap type="cc.sharper.bean.Person" id="personResult">
+		<id property="id" column="person_id" />
+        <result property="loginId" column="person_loginId"/>
+        <result property="password" column="person_password"/>
+        <collection property="bookList" ofType="cc.sharper.bean.Book">
+            <id property="id" column="book_id"/>
+            <result property="name" column="book_name"/>
+            <result property="price" column="book_price"/>
+        </collection>
+	</resultMap>
+	
+	
+	
+	<select id="loadPersonWithBook" parameterType="java.lang.String" resultMap="personResult">
+        select 
+            person.id               as  person_id,
+            person.loginId        	as  person_loginId,
+            person.password         as  person_password,
+            book.id                 as  book_id,
+            book.name       		as  book_name,
+            book.price         		as  book_price
+        from  person 
+        left outer join book on person.id=book.userId
+        where person.id=#{person_id}
+    </select>
+	
+	
+
+	<select id="queryAll" resultMap="PersonMap">
+		SELECT * FROM person
+	</select>
+
+	<!-- 分页查询 -->
+	<select id="queryPersonByPage" parameterType="java.util.Map"
+		resultMap="PersonMap">
+		SELECT * FROM person
+		order by id
+	</select>
+
+
+	<!-- 按照主键查询 -->
+	<select id="getById" parameterType="java.lang.String" resultMap="PersonMap">
+		SELECT * FROM PERSON WHERE id=#{id}
+	</select>
+
+	<!-- 更新用户的loginId -->
+	<update id="updatePerson" parameterType="cc.sharper.bean.Person">
+		update person set
+		loginId = #{loginId} where id= #{id}
+	</update>
+
+
+
+	<insert id="addPerson" parameterType="cc.sharper.bean.Person">
+		insert into
+		person(id,loginId,password) values(#{id},#{loginId},#{password})
+	</insert>
+
+
+
+	<delete id="deletePerson" parameterType="java.lang.String">
+		delete from person where id=#{id}
+	</delete>
+
+	<insert id="batchSave">
+
+	</insert>
+
+
+
+</mapper>
