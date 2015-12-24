@@ -17,4 +17,12 @@
         <li><a href="/zookeeper/mq">模拟mq</a></li>
         <li><a href="/zookeeper/listenner">监控zookeeper</a></li>
     </ul>
+
+    <ul class="nav nav-sidebar">
+        <li><a href="/zookeeper/manager">定时任务管理</a></li>
+        <li><a href="/zookeeper/mq">11</a></li>
+        <li><a href="/zookeeper/listenner">111</a></li>
+    </ul>
+
+
 </div>
