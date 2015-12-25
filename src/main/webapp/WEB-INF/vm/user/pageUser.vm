@@ -1,0 +1,20 @@
+#set($layout="/layout/emptyContent.vm")
+
+
+#if($!users)
+    #foreach( $!use in $!users.data)
+    <tr>
+        <td>$!use.id</td>
+        <td>$!use.nickname</td>
+        <td>$!use.age</td>
+        <td>$!use.createdTime</td>
+        <td>$!use.address</td>
+    </tr>
+    #end
+#end
+
+
+
+
+
+

@@ -11,4 +11,6 @@ public interface UserService
 {
     @SuppressWarnings("unchecked")
     Result<Pagination<User>> list(User user);
+    @SuppressWarnings("unchecked")
+    Result<Pagination<User>> listPage(User user);
 }

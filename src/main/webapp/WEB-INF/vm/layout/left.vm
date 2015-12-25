@@ -1,6 +1,9 @@
 <div class="col-sm-3 col-md-2 sidebar">
     <ul class="nav nav-sidebar">
         <li class="active"><a href="/showUser">用户管理 <span class="sr-only">(current)</span></a></li>
+        <li><a href="/showUser2">分页插件1.0</a></li>
+        <li><a href="/showUser3">分页插件2.0</a></li>
+        <li><a href="/showUser4">分页插件3.0</a></li>
         <li><a href="/reflect/test">反射联系</a></li>
         <li><a href="/rpc/test">rpc实验</a></li>
         <li><a href="/group">集群管理</a></li>

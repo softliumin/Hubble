@@ -21,4 +21,14 @@ public interface CrudMapper<T extends Serializable>
     List<T> queryByParam(T entity);
 
     List<T> queryAllByParam(T entity);
+
+    /**
+     * 分页的的方式一
+     * @param entity
+     * @return
+     */
+    List<T> queryByParamOfPage(T entity);
+
+
+
 }

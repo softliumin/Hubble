@@ -1,0 +1,101 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h2 class="sub-header">管理员管理</h2>
+
+
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>id</th>
+                <th>昵称</th>
+                <th>年龄</th>
+                <th>创建时间</th>
+                <th>地址</th>
+            </tr>
+            </thead>
+            <tbody class="mainContent">
+            #if($!users)
+                #foreach( $!use in $!users.data)
+                <tr>
+                    <td>$!use.id</td>
+                    <td>$!use.nickname</td>
+                    <td>$!use.age</td>
+                    <td>$!use.createdTime</td>
+                    <td>$!use.address</td>
+                </tr>
+                #end
+            #end
+            </tbody>
+        </table>
+    </div>
+## 下面就是分页插件的组装
+    <div class="page">
+        #showPageForAll($!users)
+    </div>
+
+</div>
+
+<style>
+
+    .page .prev {
+        width: 100px;
+    }
+    .page a {
+        background: #fff none repeat scroll 0 0;
+        border: 1px solid #e6e6e6;
+        color: #a5a5a5;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 14px;
+        height: 38px;
+        line-height: 38px;
+        margin-left: -5px;
+        text-align: center;
+        width: 40px;
+    }
+    a:hover, a:link, a:visited {
+        text-decoration: none;
+    }
+    a {
+        cursor: pointer;
+        outline: 0 none;
+    }
+    .page {
+        font-family: "microsoft yahei";
+        padding: 20px 0;
+        text-align: right;
+    }
+
+    .page .next {
+        width: 100px;
+    }
+    .page .total {
+        padding-left: 5px;
+    }
+    .page a.curr, .page a:hover {
+        background-color: #0287fe;
+        border-color: #0287fe;
+        color: #fff;
+    }
+</style>
+
+<script type="text/javascript">
+
+    function gotoPageForAll (pageNum)
+    {
+        var ingObj= $(this);
+        $.post("/showUser2ByAjax",{pageNum:pageNum},function(data)
+        {
+            $(".mainContent").first().html(data);
+
+            $(".curr").each(function(){
+               $(this).removeClass("curr");
+            });
+            ingObj.addClass("curr")
+
+
+        });
+    }
+</script>
+
