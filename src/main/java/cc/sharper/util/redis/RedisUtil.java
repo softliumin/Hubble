@@ -37,22 +37,37 @@ public class RedisUtil
     public static void main(String[] args)
     {
         Jedis jedis = new Jedis("www.demo.cc");
-        jedis.auth("liumin110");
+        //jedis.auth("liumin110");
         String ss  =  jedis.ping();
-
-        JedisMonitor monitor = new JedisMonitor()
+        String ww=  jedis.info("memory");
+        System.out.println(jedis.info());
+        String[] h = ww.split("\r\n");
+        for (String s : h)
         {
-            @Override
-            public void onCommand(String s)
+            if(s.startsWith("used_memory_rss"))
             {
-                //这里是自己的业务逻辑
-                System.out.println(s);
+                int num = Integer.parseInt(s.substring(16));
+                System.out.println(num);
+
+                System.out.println(num/1024);
+                System.out.println((num/1024)/1024);
             }
-        };
-        while(true)
-        {
-            jedis.monitor(monitor);
+
         }
+
+//        JedisMonitor monitor = new JedisMonitor()
+//        {
+//            @Override
+//            public void onCommand(String s)
+//            {
+//                //这里是自己的业务逻辑
+//                System.out.println(s);
+//            }
+//        };
+//        while(true)
+//        {
+//            jedis.monitor(monitor);
+//        }
 
 
 

@@ -17,8 +17,18 @@
                 from user
         ]]>
    </sql>
+    <sql id="WHERE_CONDITION">
 
+    </sql>
 
+    <sql id="PAGINATION_SQL">
+          <if test="pageSize!=null and offset!=null">
+              <![CDATA[
+                limit #{pageSize} offset #{offset}
+            ]]>
+          </if>
+
+    </sql>
 
     <select id="count" resultType="long" parameterType="cc.sharper.bean.User">
         select count(1) from user
@@ -26,6 +36,15 @@
 
     <select id="queryAllByParam" resultType="cc.sharper.bean.User" parameterType="cc.sharper.bean.User">
         <include refid="USER_SELECT"/>
+    </select>
+
+    <select id="queryByParamOfPage" resultType="cc.sharper.bean.User" parameterType="cc.sharper.bean.User">
+        <include refid="USER_SELECT" />
+        <include refid="WHERE_CONDITION"/>
+        <if test="sortCondition != null">
+        order by ${sortCondition}
+        </if>
+        <include refid="PAGINATION_SQL"/>
     </select>
 
 </mapper>

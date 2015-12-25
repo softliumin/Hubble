@@ -1,3 +1,42 @@
-#macro( d )
-<h1>Test</h1>
+##通用的分页组件
+#macro (showPageForAll $page)
+    #if($page && $page.pageCount > 1)
+        #set($pagePos = 2) ##当前页的尾巴长度
+    <a href="javascript:void (0);" #if($!page.previousPage==$!page.pageNum)  #else   onclick="gotoPageForAll.call(this,'$!page.previousPage');" #end class="prev"><i>&lt;</i>上一页</a>
+        #if($page.pageNum > 1 ) ##如果能向上翻页
+        <a onclick="gotoPageForAll.call(this,'1')">1</a>
+        #end
+        #if($!page.pageNum > $pagePos + 2 )<span class="ellipsis">···</span>#end ##显示前面的省略号
+        #foreach($i in [$pagePos..1]) ##增加前面的尾巴
+            #if($!page.pageNum - $i > 1)
+                #set($pageIndex= $!page.pageNum - $i)
+            <a href="javascript:void(0)" onclick="gotoPageForAll.call(this,'$!pageIndex')">$pageIndex</a>
+            #end
+        #end
+
+
+    <a href="javascript:void(0));" onclick="gotoPageForAll.call(this,'$!page.pageNum')" class="curr">$!page.pageNum</a> ##显示当前页号
+        #foreach($i in [1..$pagePos]) ##增加后面的尾巴
+            #if($!page.pageCount - $!page.pageNum - $i > 0)
+                #set($pageIndex= $!page.pageNum + $!i)
+            <a onclick="gotoPageForAll.call(this,'$!pageIndex')" href="javascript:void (0);">$pageIndex</a>
+            #end
+        #end
+
+        #if($!page.pageCount - $!page.pageNum > $pagePos+1)
+            <span class="ellipsis">···</span>
+        #end ##显示后面的省略号
+
+        #if($!page.pageNum < $!page.pageCount ) ##显示后面的页
+            <a href="javascript:void(0)" onclick="gotoPageForAll.call(this,'$!page.pageCount')">$!{page.pageCount}</a>
+        #end
+
+    <a href="javascript:void (0);" #if($!page.nextPage==$!page.pageNum)  #else onclick="gotoPageForAll.call(this,parseInt($!page.pageNum)+1);" #end class="next">
+        下一页<i>&gt;</i>
+    </a>
+
+    <span class="total">
+        共$!{page.dataCount}条记录，共$!{page.pageCount}页
+    </span>
+    #end
 #end
