@@ -22,7 +22,8 @@
 ## redis 模拟zookeeper
 
 ## 帅气的涛哥
-
-## 
+ 
+## (1) rpc 服务zookeeper注册
+## (2) rpc 客户端从zookeeper获取服务列表，缓存服务列表，服务下线变更通知（zookeeper临时节点实现）
 
 
