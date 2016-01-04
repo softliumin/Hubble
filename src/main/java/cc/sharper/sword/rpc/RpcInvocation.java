@@ -1,5 +1,7 @@
 package cc.sharper.sword.rpc;
 
+import java.lang.reflect.Method;
+
 /**
  * Created by lizhitao on 16-1-4.
  * 远程方法执行
@@ -17,6 +19,10 @@ public class RpcInvocation implements Invocation {
      * 执行的方法的参数
      */
     private Object[] arguments;
+    
+    public RpcInvocation(Method method, Object[] arguments){
+    	this(method.getName(), method.getParameterTypes(), arguments);
+    }
 
     public RpcInvocation(String methodName, Class<?>[] argumentsTypes, Object[] arguments) {
         this.methodName = methodName;
