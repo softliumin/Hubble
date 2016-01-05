@@ -3,6 +3,7 @@ package cc.sharper.sword.rpc.proxy;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+import cc.sharper.sword.rpc.Invoker;
 import cc.sharper.sword.rpc.RpcInvocation;
 
 /**
@@ -32,6 +33,7 @@ public class InvokerInvocationHandler implements InvocationHandler {
 		if ("equals".equals(methodName) && parameterTypes.length == 1)
 			return invoker.equals(arguments[0]);
 
-		return invoker.invoke(new RpcInvocation(method, arguments)).getValue();
+		// 真正执行代理方法，实现远程调用
+		return invoker.invoke(new RpcInvocation(method, arguments, invoker)).getValue();
 	}
 }
