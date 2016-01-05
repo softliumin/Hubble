@@ -89,9 +89,10 @@ public class SqlRunTimeInterceptor implements Interceptor
 
     }
 
+    //将参数和sql进行组装 返回具体的执行sql
     private String getSql(BoundSql boundSql, Object parameterObject, Configuration configuration)
     {
-        String sql = boundSql.getSql().replaceAll("[\\s]+", " ");
+        String sql = boundSql.getSql().replaceAll("[\\s]+", " "); //替换掉空白字符
         List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
         TypeHandlerRegistry typeHandlerRegistry = configuration.getTypeHandlerRegistry();
         if (parameterMappings != null)
@@ -117,6 +118,8 @@ public class SqlRunTimeInterceptor implements Interceptor
                         MetaObject metaObject = configuration.newMetaObject(parameterObject);
                         value = metaObject.getValue(propertyName);
                     }
+
+
                     sql = replacePlaceholder(sql, value);
                 }
             }
@@ -124,6 +127,12 @@ public class SqlRunTimeInterceptor implements Interceptor
         return sql;
     }
 
+    /**
+     * 将占位符？换成真正的参数
+     * @param sql
+     * @param propertyValue
+     * @return
+     */
     private String replacePlaceholder(String sql, Object propertyValue)
     {
         String result;
