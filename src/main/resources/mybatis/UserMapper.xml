@@ -18,7 +18,12 @@
         ]]>
    </sql>
     <sql id="WHERE_CONDITION">
-
+        where 1=1
+        <if test="age!=null and age!='' ">
+          <![CDATA[
+            and age = #{age}
+          ]]>
+        </if>
     </sql>
 
     <sql id="PAGINATION_SQL">

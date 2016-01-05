@@ -4,10 +4,13 @@
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
-	<!--<plugins>-->
-		<!--<plugin interceptor="cc.sharper.interceptor.PageInterceptor">-->
+	<plugins>
+		<!--<plugin interceptor="cc.sharper.util.interceptor.PageInterceptor">-->
 			<!--<property name="test" value="110" />-->
 		<!--</plugin>-->
-	<!--</plugins>-->
+
+		<plugin interceptor="cc.sharper.util.interceptor.SqlRunTimeInterceptor">
+		</plugin>
+	</plugins>
 </configuration>
 
