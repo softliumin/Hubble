@@ -1,5 +1,6 @@
 package cc.sharper.util.interceptor;
 
+import cc.sharper.util.redis.RedisUtil;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.statement.RoutingStatementHandler;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -14,6 +15,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import redis.clients.jedis.Jedis;
 
 import java.sql.Connection;
 import java.text.DateFormat;
@@ -64,18 +66,19 @@ public class SqlRunTimeInterceptor implements Interceptor
             //System.out.println("sql=================="+sql);
 
             long start = System.currentTimeMillis();
-
             Object result = invocation.proceed();
-
             long end = System.currentTimeMillis();
             long timing = end - start;
             System.out.println();
+
             System.out.println("耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
+
+            Jedis redis = RedisUtil.getClient();
+
+            redis.zadd("sqltime2",timing,sql);
+
             System.out.println();
             return result;
-
-
-
 
     }
 
@@ -118,8 +121,6 @@ public class SqlRunTimeInterceptor implements Interceptor
                         MetaObject metaObject = configuration.newMetaObject(parameterObject);
                         value = metaObject.getValue(propertyName);
                     }
-
-
                     sql = replacePlaceholder(sql, value);
                 }
             }
@@ -154,6 +155,5 @@ public class SqlRunTimeInterceptor implements Interceptor
         }
         return sql.replaceFirst("\\?", result);
     }
-
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 }
