@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisMonitor;
 public class RedisUtil
 {
 
-    public Jedis getClient()
+    public static Jedis getClient()
     {
         Jedis redis = new Jedis("www.demo.cc");
         redis.auth("liumin110");

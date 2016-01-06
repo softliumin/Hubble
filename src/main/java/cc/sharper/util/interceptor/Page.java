@@ -101,7 +101,7 @@ public class Page
     public void setPageNumber(int pageNumber)
     {
         this.pageNumber = pageNumber;
-        this.count();
+        //this.count();
     }
 
     public int getDbIndex()

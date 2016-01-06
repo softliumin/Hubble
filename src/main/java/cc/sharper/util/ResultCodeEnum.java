@@ -5,7 +5,8 @@ package cc.sharper.util;
  */
 public enum ResultCodeEnum
 {
-    SUCCESS(1, "成功");
+    SUCCESS(1, "成功"),
+    ERROR(0, "失败");
 
     private Integer code;
     private String msg;
