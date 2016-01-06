@@ -2,22 +2,18 @@ package cc.sharper.util.interceptor;
 
 import cc.sharper.util.redis.RedisUtil;
 import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.executor.statement.RoutingStatementHandler;
-import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.mapping.ParameterMode;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 import redis.clients.jedis.Jedis;
 
-import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,9 +24,6 @@ import java.util.Properties;
  * 主要进行统计sql执行中的执行时间，生产环境要关闭
  * Created by liumin3 on 2016/1/5.
  */
-//@Intercepts(@Signature(type=StatementHandler.class,method = "query",args = {Object.class}))
-//@Intercepts({@Signature(method = "prepare", type = StatementHandler.class, args = {Connection.class})})
-
 @Intercepts({
         @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
         @Signature(type = Executor.class, method = "update", args = {MappedStatement.class, Object.class})
@@ -40,45 +33,33 @@ public class SqlRunTimeInterceptor implements Interceptor
 
     public Object intercept(Invocation invocation) throws Throwable
     {
-//            RoutingStatementHandler statementHandler = (RoutingStatementHandler) invocation.getTarget();
-//            MetaObject metaobject = MetaObject.forObject(statementHandler, SystemMetaObject.DEFAULT_OBJECT_FACTORY, SystemMetaObject.DEFAULT_OBJECT_WRAPPER_FACTORY);
-//
-//            StatementHandler delegate = (StatementHandler) metaobject.getValue("delegate");
-//            BoundSql boundSql = delegate.getBoundSql();
-//
-//            String sql = boundSql.getSql();
-//
-//            System.out.println(sql);//组装之前的sql  不行
-//            System.out.println();
+        MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
+        Object parameterObject = null;
+        if (invocation.getArgs().length > 1) {
+            parameterObject = invocation.getArgs()[1];
+        }
 
+        String statementId = mappedStatement.getId();
+        BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
+        Configuration configuration = mappedStatement.getConfiguration();
+        String sql = getSql(boundSql, parameterObject, configuration);
 
-            MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-            Object parameterObject = null;
-            if (invocation.getArgs().length > 1) {
-                parameterObject = invocation.getArgs()[1];
-            }
+        //System.out.println("sql=================="+sql);
 
-            String statementId = mappedStatement.getId();
-            BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
-            Configuration configuration = mappedStatement.getConfiguration();
-            String sql = getSql(boundSql, parameterObject, configuration);
+        long start = System.currentTimeMillis();
+        Object result = invocation.proceed();
+        long end = System.currentTimeMillis();
+        long timing = end - start;
+        System.out.println();
 
-            //System.out.println("sql=================="+sql);
+        System.out.println("耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
 
-            long start = System.currentTimeMillis();
-            Object result = invocation.proceed();
-            long end = System.currentTimeMillis();
-            long timing = end - start;
-            System.out.println();
+        Jedis redis = RedisUtil.getClient();
 
-            System.out.println("耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
+        redis.zadd("sqltime2",timing,sql);
 
-            Jedis redis = RedisUtil.getClient();
-
-            redis.zadd("sqltime2",timing,sql);
-
-            System.out.println();
-            return result;
+        System.out.println();
+        return result;
 
     }
 
