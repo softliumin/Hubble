@@ -1,12 +1,13 @@
 package cc.sharper.sword.rpc;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 /**
  * Created by lizhitao on 16-1-4.
- * 远程方法执行
+ * 远程方法执行签名封装类
  */
-public class RpcInvocation implements Invocation {
+public class RpcInvocation implements Invocation, Serializable {
     /**
      * 执行的方法的名称
      */
@@ -19,9 +20,16 @@ public class RpcInvocation implements Invocation {
      * 执行的方法的参数
      */
     private Object[] arguments;
-    
-    public RpcInvocation(Method method, Object[] arguments){
-    	this(method.getName(), method.getParameterTypes(), arguments);
+
+    private Invoker<?> invoker;
+
+    public RpcInvocation(Method method, Object[] arguments) {
+        this(method.getName(), method.getParameterTypes(), arguments);
+    }
+
+    public RpcInvocation(Method method, Object[] arguments, Invoker invoker) {
+        this(method.getName(), method.getParameterTypes(), arguments);
+        this.invoker = invoker;
     }
 
     public RpcInvocation(String methodName, Class<?>[] argumentsTypes, Object[] arguments) {
@@ -52,5 +60,9 @@ public class RpcInvocation implements Invocation {
 
     public void setArguments(Object[] arguments) {
         this.arguments = arguments;
+    }
+
+    public Invoker<?> getInvoker() {
+        return invoker;
     }
 }

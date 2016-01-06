@@ -7,4 +7,5 @@ public interface Invocation {
     String getMethodName();
     Class<?>[] getArgumentsTypes();
     Object[] getArguments();
+    Invoker<?> getInvoker();
 }

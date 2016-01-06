@@ -1,4 +1,4 @@
-package cc.sharper.sword.rpc.proxy;
+package cc.sharper.sword.rpc;
 
 import cc.sharper.sword.rpc.Invocation;
 import cc.sharper.sword.rpc.Result;
@@ -8,4 +8,6 @@ import cc.sharper.sword.rpc.Result;
  */
 public interface Invoker<T> {
 	Result invoke(Invocation invocation);
+
+	Class<T> getInterface();
 }
