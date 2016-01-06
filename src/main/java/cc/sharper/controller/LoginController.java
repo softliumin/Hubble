@@ -7,6 +7,7 @@ import cc.sharper.service.UserService;
 import cc.sharper.util.Pagination;
 import cc.sharper.util.Result;
 import cc.sharper.util.interceptor.Page;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -127,18 +128,38 @@ public class LoginController extends BaseController
 
 
     /**
+     *
      * 使用mybatis的拦截器来实现分页功能
      * @return
      */
     @RequestMapping("/showUser3")
-    public String showUser3()
+    public String showUser3(Model model,HttpServletRequest request)
     {
         try
         {
+            User user= new User();
+            user.setAge(16);
+            Page page = new Page();
+            String pagreNum =  request.getParameter("pageNum");
+            if (pagreNum == null)
+            {
+                pagreNum = "1";
+            }
+
+            page.setCurrentPage(Integer.parseInt(pagreNum));
+            page.setPageNumber(5);
+
+            Result<List<User>> result = userService.onPage(user, page);
+            if(result.isSuccess())
+            {
+                model.addAttribute("list",result.getData());
+                System.out.println(JSON.toJSONString(result.getData()));
+                model.addAttribute("page",page);
+            }
 
         } catch (Exception e)
         {
-
+            e.printStackTrace();
         }
         return  "/user/index3";
     }

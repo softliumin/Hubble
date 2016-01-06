@@ -5,12 +5,13 @@
 
 <configuration>
 	<plugins>
-		<!--<plugin interceptor="cc.sharper.util.interceptor.PageInterceptor">-->
-			<!--<property name="test" value="110" />-->
-		<!--</plugin>-->
-
 		<plugin interceptor="cc.sharper.util.interceptor.SqlRunTimeInterceptor">
 		</plugin>
+		<plugin interceptor="cc.sharper.util.interceptor.PageInterceptor">
+			<property name="test" value="110" />
+		</plugin>
+
+
 	</plugins>
 </configuration>
 

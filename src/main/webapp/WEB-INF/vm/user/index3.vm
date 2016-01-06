@@ -15,8 +15,8 @@
             </tr>
             </thead>
             <tbody class="mainContent">
-            #if($!users)
-                #foreach( $!use in $!users.data)
+            #if($!list)
+                #foreach( $!use in $!list)
                 <tr>
                     <td>$!use.id</td>
                     <td>$!use.nickname</td>
@@ -32,6 +32,8 @@
 ## 下面就是分页插件的组装
     <div class="page">
         #showPageForAll($!users)
+
+        #showPageForAll2($!page)
     </div>
 
 </div>
@@ -78,24 +80,22 @@
         border-color: #0287fe;
         color: #fff;
     }
+
+
+    .page .ellipsis {
+        display: inline-block;
+        height: 38px;
+        line-height: 38px;
+        text-align: center;
+        width: 40px;
+    }
 </style>
 
 <script type="text/javascript">
 
-    function gotoPageForAll (pageNum)
+    function gotoPageForAll2 (pageNum)
     {
-        var ingObj= $(this);
-        $.post("/showUser2ByAjax",{pageNum:pageNum},function(data)
-        {
-            $(".mainContent").first().html(data);
-
-            $(".curr").each(function(){
-               $(this).removeClass("curr");
-            });
-            ingObj.addClass("curr")
-
-
-        });
+       window.location.href="/showUser3?pageNum="+pageNum
     }
 </script>
 

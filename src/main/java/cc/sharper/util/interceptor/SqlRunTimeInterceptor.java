@@ -30,37 +30,30 @@ import java.util.Properties;
 })
 public class SqlRunTimeInterceptor implements Interceptor
 {
-
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public Object intercept(Invocation invocation) throws Throwable
     {
         MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
         Object parameterObject = null;
-        if (invocation.getArgs().length > 1) {
+        if (invocation.getArgs().length > 1)
+        {
             parameterObject = invocation.getArgs()[1];
         }
-
         String statementId = mappedStatement.getId();
         BoundSql boundSql = mappedStatement.getBoundSql(parameterObject);
         Configuration configuration = mappedStatement.getConfiguration();
         String sql = getSql(boundSql, parameterObject, configuration);
-
-        //System.out.println("sql=================="+sql);
 
         long start = System.currentTimeMillis();
         Object result = invocation.proceed();
         long end = System.currentTimeMillis();
         long timing = end - start;
         System.out.println();
-
         System.out.println("耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
-
         Jedis redis = RedisUtil.getClient();
-
         redis.zadd("sqltime2",timing,sql);
-
         System.out.println();
         return result;
-
     }
 
     public Object plugin(Object target)
@@ -136,5 +129,4 @@ public class SqlRunTimeInterceptor implements Interceptor
         }
         return sql.replaceFirst("\\?", result);
     }
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 }

@@ -2,6 +2,7 @@ package cc.sharper.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by liumin3 on 2015/12/23.
@@ -28,6 +29,9 @@ public interface CrudMapper<T extends Serializable>
      * @return
      */
     List<T> queryByParamOfPage(T entity);
+
+
+    List<T> onPage(Map<String,Object> parameter);
 
 
 

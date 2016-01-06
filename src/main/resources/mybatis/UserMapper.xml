@@ -26,6 +26,15 @@
         </if>
     </sql>
 
+    <sql id="WHERE_CONDITION2">
+        where 1=1
+        <if test="user.age!=null and user.age!='' ">
+            <![CDATA[
+            and age = #{user.age}
+          ]]>
+        </if>
+    </sql>
+
     <sql id="PAGINATION_SQL">
           <if test="pageSize!=null and offset!=null">
               <![CDATA[
@@ -50,6 +59,11 @@
         order by ${sortCondition}
         </if>
         <include refid="PAGINATION_SQL"/>
+    </select>
+
+    <select id="onPage" resultType="cc.sharper.bean.User" parameterType="java.util.Map" >
+        <include refid="USER_SELECT"/>
+        <include refid="WHERE_CONDITION2"/>
     </select>
 
 </mapper>
