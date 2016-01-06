@@ -2,7 +2,7 @@
 #macro (showPageForAll $page)
     #if($page && $page.pageCount > 1)
         #set($pagePos = 2) ##当前页的尾巴长度
-    <a href="javascript:void (0);" #if($!page.previousPage==$!page.pageNum)  #else   onclick="gotoPageForAll.call(this,'$!page.previousPage');" #end class="prev"><i>&lt;</i>上一页</a>
+    <a href="javascript:void (0);" #if($!page.previousPage==$!page.pageNum)    #else   onclick="gotoPageForAll.call(this,'$!page.previousPage');"  #end class="prev"><i>&lt;</i>上一页</a>
         #if($page.pageNum > 1 ) ##如果能向上翻页
         <a onclick="gotoPageForAll.call(this,'1')">1</a>
         #end
@@ -47,7 +47,7 @@
     #if($page && $page.totalPage > 1)
         #set($pagePos = 2) ##当前页的尾巴长度
 
-    <a href="javascript:void (0);" #if($!page.previousPage==$!page.currentPage)  #else   onclick="gotoPageForAll2.call(this,'$!page.previousPage');" #end class="prev">
+    <a href="javascript:void (0);" #if(1==$!page.currentPage) class ="noPrev"  #else   onclick="gotoPageForAll2.call(this,parseInt($!page.currentPage)-1);" class="prev" #end >
         <i>&lt;</i>上一页
     </a>
 
@@ -83,7 +83,7 @@
         <a href="javascript:void(0)" onclick="gotoPageForAll2.call(this,'$!page.totalPage')">$!{page.totalPage}</a>
         #end
 
-    <a href="javascript:void (0);" #if($!page.nextPage==$!page.pageNum)  #else onclick="gotoPageForAll2.call(this,parseInt($!page.pageNum)+1);" #end class="next">
+    <a href="javascript:void (0);" #if($!page.totalPage==$!page.currentPage) class="noNext"  #else onclick="gotoPageForAll2.call(this,parseInt($!page.currentPage)+1);" class="next" #end >
         下一页<i>&gt;</i>
     </a>
 
