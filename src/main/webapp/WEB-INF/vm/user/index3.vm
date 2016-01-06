@@ -43,6 +43,11 @@
     .page .prev {
         width: 100px;
     }
+
+    .page .noPrev {
+        width: 100px;
+    }
+
     .page a {
         background: #fff none repeat scroll 0 0;
         border: 1px solid #e6e6e6;
@@ -72,10 +77,14 @@
     .page .next {
         width: 100px;
     }
+
+    .page .noNext {
+        width: 100px;
+    }
     .page .total {
         padding-left: 5px;
     }
-    .page a.curr, .page a:hover {
+    .page a.curr, .page a:not(.noPrev):not(.noNext):hover {
         background-color: #0287fe;
         border-color: #0287fe;
         color: #fff;
