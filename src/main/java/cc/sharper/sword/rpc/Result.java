@@ -5,4 +5,6 @@ package cc.sharper.sword.rpc;
  */
 public interface Result {
     Object getValue();
+    Throwable getException();
+    boolean hasException();
 }
