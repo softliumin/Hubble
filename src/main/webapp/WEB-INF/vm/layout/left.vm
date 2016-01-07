@@ -4,6 +4,7 @@
         <li><a href="/showUser2">分页插件1.0</a></li>
         <li><a href="/showUser3">分页插件2.0</a></li>
         <li><a href="/showUser4">分页插件3.0</a></li>
+        <li><a href="/stringSql">直接执行sql语句</a></li>
         <li><a href="/reflect/test">反射联系</a></li>
         <li><a href="/rpc/test">rpc实验</a></li>
         <li><a href="/group">集群管理</a></li>

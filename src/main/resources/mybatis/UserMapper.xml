@@ -33,6 +33,12 @@
             and age = #{user.age}
           ]]>
         </if>
+
+        <if test="user.address!=null and user.address!='' ">
+            <![CDATA[
+            and address = #{user.address}
+          ]]>
+        </if>
     </sql>
 
     <sql id="PAGINATION_SQL">
