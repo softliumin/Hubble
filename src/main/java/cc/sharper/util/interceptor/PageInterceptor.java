@@ -3,6 +3,7 @@ package cc.sharper.util.interceptor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Properties;
 
@@ -29,30 +30,41 @@ public class PageInterceptor implements Interceptor
     public Object intercept(Invocation invocation) throws Throwable
     {
         StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
-        MetaObject metaObject = MetaObject.forObject(statementHandler, SystemMetaObject.DEFAULT_OBJECT_FACTORY,
-                SystemMetaObject.DEFAULT_OBJECT_WRAPPER_FACTORY);
+        MetaObject metaObject = MetaObject.forObject(statementHandler, SystemMetaObject.DEFAULT_OBJECT_FACTORY,SystemMetaObject.DEFAULT_OBJECT_WRAPPER_FACTORY);
+        //MetaObject metaObject2 = SystemMetaObject.forObject(statementHandler);
         MappedStatement mappedStatement = (MappedStatement) metaObject.getValue("delegate.mappedStatement");
+
         // 配置文件中SQL语句的ID
         String id = mappedStatement.getId();
-        if (id.matches(".+ByPage$"))
+        if (id.matches(".+onPage$"))
         {
             BoundSql boundSql = statementHandler.getBoundSql();
             // 原始的SQL语句
             String sql = boundSql.getSql();
+
             // 查询总条数的SQL语句
-            String countSql = "select count(*) from (" + sql + ")a";
+            String countSql = "select count(*) from (" + sql + ") tb";
+
+            //第一个参数，数据库连接
             Connection connection = (Connection) invocation.getArgs()[0];
+
+            //
             PreparedStatement countStatement = connection.prepareStatement(countSql);
+
             ParameterHandler parameterHandler = (ParameterHandler) metaObject.getValue("delegate.parameterHandler");
+
             parameterHandler.setParameters(countStatement);
+
             ResultSet rs = countStatement.executeQuery();
 
             Map<?, ?> parameter = (Map<?, ?>) boundSql.getParameterObject();
-            Page page = (Page) parameter.get("page");
+            Page page = (Page) parameter.get("page");//
             if (rs.next())
             {
                 page.setTotalNumber(rs.getInt(1));
+                page.count();
             }
+
             // 改造后带分页查询的SQL语句
             String pageSql = sql + " limit " + page.getDbIndex() + "," + page.getDbNumber();
             metaObject.setValue("delegate.boundSql.sql", pageSql);
@@ -62,7 +74,6 @@ public class PageInterceptor implements Interceptor
 
     public Object plugin(Object target)
     {
-        System.out.println(this.test);
         return Plugin.wrap(target, this);
     }
 

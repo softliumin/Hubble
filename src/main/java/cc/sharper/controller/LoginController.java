@@ -2,10 +2,12 @@ package cc.sharper.controller;
 
 import cc.sharper.base.BaseController;
 import cc.sharper.bean.User;
+import cc.sharper.service.SqlService;
 import cc.sharper.service.UserService;
 import cc.sharper.util.Pagination;
 import cc.sharper.util.Result;
 import cc.sharper.util.interceptor.Page;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +28,11 @@ public class LoginController extends BaseController
 {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SqlService sqlService;
+
+
 
     @RequestMapping("")
     public String  index()
@@ -71,6 +78,7 @@ public class LoginController extends BaseController
                 pageNum =1L;
             }
             user.setPageNum(pageNum);
+            user.setAge(18);
             Result<Pagination<User>> result = userService.listPage(user);
 
             if(result.isSuccess())
@@ -117,6 +125,71 @@ public class LoginController extends BaseController
 //        mv.addObject("list", list);
         return mv;
     }
+
+
+    /**
+     *
+     * 使用mybatis的拦截器来实现分页功能
+     * @return
+     */
+    @RequestMapping("/showUser3")
+    public String showUser3(Model model,HttpServletRequest request)
+    {
+        try
+        {
+            User user= new User();
+            user.setAge(16);
+            Page page = new Page();
+            String pagreNum =  request.getParameter("pageNum");
+            if (pagreNum == null)
+            {
+                pagreNum = "1";
+            }
+
+            page.setCurrentPage(Integer.parseInt(pagreNum));
+            page.setPageNumber(5);
+
+            Result<List<User>> result = userService.onPage(user, page);
+            if(result.isSuccess())
+            {
+                model.addAttribute("list",result.getData());
+                System.out.println(JSON.toJSONString(result.getData()));
+                model.addAttribute("page",page);
+            }
+
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return  "/user/index3";
+    }
+
+    /**
+     * 直接使用sql字符串来对数据库的操作
+     * @return
+     */
+    public String useSqlString(HttpServletRequest request)
+    {
+        try
+        {
+            String type = request.getParameter("sqlType");
+            String sql = request.getParameter("sql");
+
+
+
+
+
+
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return  "/user/usrSqlString";
+    }
+
+
+
 
 
 
