@@ -71,6 +71,12 @@
 		<property name="mapperLocations" value="classpath:/mybatis/**/*Mapper.xml" />
 	</bean>
 
+	<!-- 用户直接执行sql的功能 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="cc.sharper.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />

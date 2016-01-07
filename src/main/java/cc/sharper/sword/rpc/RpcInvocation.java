@@ -9,6 +9,10 @@ import java.lang.reflect.Method;
  */
 public class RpcInvocation implements Invocation, Serializable {
     /**
+     * 执行的类名称
+     */
+    private String className;
+    /**
      * 执行的方法的名称
      */
     private String methodName;
@@ -21,18 +25,12 @@ public class RpcInvocation implements Invocation, Serializable {
      */
     private Object[] arguments;
 
-    private Invoker<?> invoker;
-
-    public RpcInvocation(Method method, Object[] arguments) {
-        this(method.getName(), method.getParameterTypes(), arguments);
+    public RpcInvocation(String className, Method method, Object[] arguments) {
+        this(className, method.getName(), method.getParameterTypes(), arguments);
     }
 
-    public RpcInvocation(Method method, Object[] arguments, Invoker invoker) {
-        this(method.getName(), method.getParameterTypes(), arguments);
-        this.invoker = invoker;
-    }
-
-    public RpcInvocation(String methodName, Class<?>[] argumentsTypes, Object[] arguments) {
+    public RpcInvocation(String className, String methodName, Class<?>[] argumentsTypes, Object[] arguments) {
+        this.className = className;
         this.methodName = methodName;
         this.argumentsTypes = argumentsTypes;
         this.arguments = arguments;
@@ -62,7 +60,11 @@ public class RpcInvocation implements Invocation, Serializable {
         this.arguments = arguments;
     }
 
-    public Invoker<?> getInvoker() {
-        return invoker;
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

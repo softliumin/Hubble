@@ -8,4 +8,5 @@ import cc.sharper.sword.common.URL;
 public interface Registry {
     void register(URL url);
     void unRegister(URL url);
+    void destroy();
 }

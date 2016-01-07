@@ -8,12 +8,25 @@ import java.io.Serializable;
  */
 public class RpcResult implements Result, Serializable {
     private Object result;
+    private Throwable exception;
 
     public RpcResult(Object result) {
         this.result = result;
     }
 
+    public RpcResult(Throwable exception) {
+        this.exception = exception;
+    }
+
     public Object getValue() {
         return result;
+    }
+
+    public Throwable getException() {
+        return this.exception;
+    }
+
+    public boolean hasException() {
+        return null != exception;
     }
 }

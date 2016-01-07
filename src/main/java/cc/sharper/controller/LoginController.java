@@ -6,8 +6,10 @@ import cc.sharper.service.SqlService;
 import cc.sharper.service.UserService;
 import cc.sharper.util.Pagination;
 import cc.sharper.util.Result;
+import cc.sharper.util.SqlMapper;
 import cc.sharper.util.interceptor.Page;
 import com.alibaba.fastjson.JSON;
+import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,9 @@ public class LoginController extends BaseController
 
     @Autowired
     private SqlService sqlService;
+
+    @Autowired
+    public SqlSessionTemplate sqlSession;
 
 
 
@@ -139,6 +144,7 @@ public class LoginController extends BaseController
         {
             User user= new User();
             user.setAge(16);
+            user.setAddress("北京大兴区");
             Page page = new Page();
             String pagreNum =  request.getParameter("pageNum");
             if (pagreNum == null)
@@ -168,12 +174,26 @@ public class LoginController extends BaseController
      * 直接使用sql字符串来对数据库的操作
      * @return
      */
+    @RequestMapping("/stringSql")
     public String useSqlString(HttpServletRequest request)
     {
         try
         {
-            String type = request.getParameter("sqlType");
-            String sql = request.getParameter("sql");
+//            String type = request.getParameter("sqlType");
+//            String sql = request.getParameter("sql");
+
+             String sql = "update user set age=20 where age=29;";
+
+            String sql2 = "select age from user where age = 20;";
+
+            SqlMapper sqlMapper = new SqlMapper(sqlSession);
+
+            int num =  sqlMapper.update(sql);
+            System.out.println("============"+num);
+
+            //sqlMapper.selectList(sql2);
+
+
 
 
 
