@@ -143,4 +143,42 @@ public class ReflectUtil {
         ret.append(')').append('V');
         return ret.toString();
     }
+
+    /**
+     * get method desc.
+     * int do(int arg1) => "do(I)I"
+     * void do(String arg1,boolean arg2) => "do(Ljava/lang/String;Z)V"
+     *
+     * @param m method.
+     * @return desc.
+     */
+    public static String getDesc(final Method m) {
+        StringBuilder ret = new StringBuilder(m.getName()).append('(');
+        Class<?>[] parameterTypes = m.getParameterTypes();
+        for (int i = 0; i < parameterTypes.length; i++)
+            ret.append(getDesc(parameterTypes[i]));
+        ret.append(')').append(getDesc(m.getReturnType()));
+        return ret.toString();
+    }
+
+    /**
+     * get method name.
+     * "void do(int)", "void do()", "int do(java.lang.String,boolean)"
+     *
+     * @param m method.
+     * @return name.
+     */
+    public static String getMethodName(final Method m) {
+        StringBuilder ret = new StringBuilder();
+        ret.append(getClassName(m.getReturnType())).append(' ');
+        ret.append(m.getName()).append('(');
+        Class<?>[] parameterTypes = m.getParameterTypes();
+        for (int i = 0; i < parameterTypes.length; i++) {
+            if (i > 0)
+                ret.append(',');
+            ret.append(getClassName(parameterTypes[i]));
+        }
+        ret.append(')');
+        return ret.toString();
+    }
 }
