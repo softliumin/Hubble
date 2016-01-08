@@ -7,7 +7,13 @@ import cc.sharper.util.Pagination;
 import cc.sharper.util.Result;
 import cc.sharper.util.ResultCodeEnum;
 import cc.sharper.util.interceptor.Page;
+import cc.sharper.util.redis.RedisUtil;
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionCallbackWithoutResult;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -23,6 +29,9 @@ public class UserServiceImpl implements UserService
 {
     @Resource
     private UserMapper mapper;
+
+    @Resource
+    private TransactionTemplate transactionTemplate;
 
     public Result<Pagination<User>> list(User user)
     {
@@ -86,6 +95,42 @@ public class UserServiceImpl implements UserService
             result.setEnum(ResultCodeEnum.ERROR);
         }
         return  result;
+    }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Result<Void> addUser(final User user)
+    {
+        final Result<Void> result = Result.getSuccessResult();
+
+            transactionTemplate.execute(new TransactionCallbackWithoutResult(){
+                @Override
+                protected void doInTransactionWithoutResult(TransactionStatus transactionStatus)
+                {
+                    try
+                    {
+                        int yy  = mapper.insert(user);
+                        if(1== yy)
+                        {
+                            //数据放入缓存
+                            String ss=  RedisUtil.getClient().set("user-"+user.getId(), JSON.toJSONString(user));
+                            System.out.println(ss);
+                        }else
+                        {
+                            transactionStatus.setRollbackOnly();
+                            result.setEnum(ResultCodeEnum.ERROR);
+                        }
+
+                    }catch (Exception e)
+                    {
+                        transactionStatus.setRollbackOnly();
+                        e.printStackTrace();
+                    }
+                }
+
+            });
+
+
+        return  result;
     }
 }

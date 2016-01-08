@@ -71,5 +71,61 @@
         <include refid="USER_SELECT"/>
         <include refid="WHERE_CONDITION2"/>
     </select>
+    
+    <insert id="insert"  parameterType="cc.sharper.bean.User">
+      insert  into user (
+        <if test="id != null">
+            ID,
+        </if>
+        <if test="age !=null">
+         AGE,
+        </if>
+        <if test="address  != null">
+            ADDRESS,
+        </if>
+        <if test="nickname != null">
+            NICKNAME,
+        </if>
+        <if test="email != null">
+            EMAIL,
+        </if>
+        <if test="job != null">
+            JOB,
+        </if>
+        <if test="password != null">
+            NPASSWORD,
+        </if>
+        <if test="tel != null">
+            TEL,
+        </if>
+        CREATED_TIME
+        ) VALUES (
+        <if test="id != null">
+            #{id},
+        </if>
+        <if test="age !=null">
+         #{age},
+        </if>
+        <if test="address != null">
+            #{address},
+        </if>
+        <if test="nickname != null">
+            #{nickname},
+        </if>
+        <if test="email != null">
+            #{email},
+        </if>
+        <if test="job != null">
+            #{job},
+        </if>
+        <if test="password != null">
+            #{password},
+        </if>
+        <if test="tel != null">
+            #{tel},
+        </if>
+        now()
+        )
+    </insert>
 
 </mapper>

@@ -182,24 +182,27 @@ public class LoginController extends BaseController
 //            String type = request.getParameter("sqlType");
 //            String sql = request.getParameter("sql");
 
-             String sql = "update user set age=20 where age=29;";
+//             String sql = "update user set age=20 where age=29;";
+//
+//            String sql2 = "select age from user where age = 20;";
+//
+//            SqlMapper sqlMapper = new SqlMapper(sqlSession);
+//
+//            int num =  sqlMapper.update(sql);
+//            System.out.println("============"+num);
 
-            String sql2 = "select age from user where age = 20;";
 
-            SqlMapper sqlMapper = new SqlMapper(sqlSession);
 
-            int num =  sqlMapper.update(sql);
-            System.out.println("============"+num);
 
+            User user  = new User();
+            user.setAge(12);
+            user.setAddress("亦庄");
+            user.setEmail("11@qq.com");
+            user.setId("8542");
+            user.setJob("PE");
+            user.setTel("15929476892");
+            userService.addUser(user);
             //sqlMapper.selectList(sql2);
-
-
-
-
-
-
-
-
 
         }catch (Exception e)
         {
