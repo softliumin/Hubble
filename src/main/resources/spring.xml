@@ -17,4 +17,5 @@ http://www.springframework.org/schema/context/spring-context-3.0.xsd
 		<!--<property name="port" value="${redis_port}" />-->
 		<!--<property name="password" value="${redis_password}" />-->
 	<!--</bean>-->
+	<import resource="spring-provider.xml" />
 </beans>

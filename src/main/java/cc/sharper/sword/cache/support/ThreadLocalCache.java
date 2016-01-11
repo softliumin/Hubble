@@ -21,12 +21,10 @@ public class ThreadLocalCache implements Cache {
 		};
 	}
 
-	@Override
 	public void put(Object key, Object value) {
 		cache.get().put(key, value);
 	}
 
-	@Override
 	public Object get(Object key) {
 		return cache.get().get(key);
 	}
