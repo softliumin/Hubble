@@ -16,11 +16,13 @@ public class Consumer
     private Nest subscriber;
     private String id;
 
+
+
     public Consumer(final Jedis jedis, final String id, final String topic,String auth)
     {
         this.topic = new Nest("topic:" + topic, jedis);
         jedis.auth(auth);
-        this.subscriber = new Nest(this.topic.cat("subscribers").key(), jedis);
+        this.subscriber = new Nest(this.topic.cat("subscriberss").key(), jedis);
         this.id = id;
     }
 

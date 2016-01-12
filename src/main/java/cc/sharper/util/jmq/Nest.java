@@ -33,6 +33,7 @@ public class Nest
         return generatedKey;
     }
 
+    //增加前缀
     private void prefix()
     {
         if (sb == null)

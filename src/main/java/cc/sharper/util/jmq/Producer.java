@@ -63,13 +63,13 @@ public class Producer
         {
             topic.watch();
             lastMessageId = getNextMessageId();
-            Transaction trans = jedis.multi();
-            String msgKey = topic.cat("message").cat(lastMessageId).key();
-            trans.set(msgKey, message);
-            trans.set(topic.key(), lastMessageId.toString());
+            Transaction trans = jedis.multi();//开启事务
+            String msgKey = topic.cat("message").cat(lastMessageId).key(); //组装key
+            trans.set(msgKey, message); //设置消息
+            trans.set(topic.key(), lastMessageId.toString()); //设置消息的记录（消息总数等）
             if (seconds > 0)
-                trans.expire(msgKey, seconds);
-            exec = trans.exec();
+                trans.expire(msgKey, seconds);//设置超时时间
+            exec = trans.exec();//执行，返回的每一条记录的执行结果
         } while (exec == null);
     }
 }

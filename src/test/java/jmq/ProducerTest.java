@@ -30,10 +30,19 @@ public class ProducerTest extends Assert
     public void publishAndConsume()
     {
         Producer p = new Producer(new Jedis("www.demo.cc"), "foo","liumin110");
+        //Producer p2 = new Producer(new Jedis("www.demo.cc"), "foo2","liumin110");
         Consumer c = new Consumer(new Jedis("www.demo.cc"), "a subscriber", "foo","liumin110");
+        //Consumer c2 = new Consumer(new Jedis("www.demo.cc"), "a subscriber2", "foo","liumin110");
 
         p.publish("hello world!");
+//        p.publish("hello world2!");
+//        p.publish("hello world3!");
+//        p.publish("hello world4!");
         assertEquals("hello world!", c.consume());
+
+//        c2.consume();
+//        c.consume();
+//        c.consume();
     }
 
     @Test
@@ -47,6 +56,7 @@ public class ProducerTest extends Assert
         assertEquals("hello world!", c.read());
     }
 
+    //为读取的信息的测试
     @Test
     public void unreadMessages()
     {
@@ -57,10 +67,14 @@ public class ProducerTest extends Assert
         p.publish("hello world!");
         assertEquals(1, c.unreadMessages());
         p.publish("hello world!");
+
+
+
         assertEquals(2, c.unreadMessages());
         c.consume();
         assertEquals(1, c.unreadMessages());
     }
+
 
     @Test
     public void raceConditionsWhenPublishing() throws InterruptedException
@@ -84,6 +98,7 @@ public class ProducerTest extends Assert
         assertEquals("b", c.consume());
     }
 
+    //消除历史消息
     @Test
     public void eraseOldMessages()
     {
@@ -122,6 +137,7 @@ public class ProducerTest extends Assert
 
         protected Integer getNextMessageId()
         {
+            //在获取id的时候，暂停线程0.5秒
             Integer nextMessageId = super.getNextMessageId();
             sleep(sleep);
             return nextMessageId;
@@ -143,6 +159,11 @@ public class ProducerTest extends Assert
             this.sleep = sleep;
         }
 
+
+        /**
+         * 消费的时候都进行线程的等待，模拟业务
+         * @return
+         */
         @Override
         public String consume()
         {

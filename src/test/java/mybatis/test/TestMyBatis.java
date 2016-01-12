@@ -26,11 +26,11 @@ public class TestMyBatis
         User user  = new User();
         user.setAge(12);
         user.setNickname("shit");
-        user.setAddress("亦庄");
-        user.setEmail("11@qq.com");
-        user.setId("85242");
-        user.setJob("PE");
-        user.setTel("15929476892");
+        user.setAddress("haha");
+        user.setEmail("85@qq.com");
+        user.setId("885247");
+        user.setJob("haha");
+        user.setTel("18711622091");
         userService.addUser(user);
     }
 }
