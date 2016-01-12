@@ -20,4 +20,9 @@ public interface UserService
 
     @SuppressWarnings("unchecked")
     Result<List<User>>  onPage(User user,Page page);
+
+    @SuppressWarnings("unchecked")
+    Result<Void> addUser(User user);
+
+
 }
