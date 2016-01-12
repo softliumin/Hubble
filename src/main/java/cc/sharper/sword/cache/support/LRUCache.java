@@ -30,14 +30,12 @@ public class LRUCache implements Cache {
 		};
 	}
 
-	@Override
 	public void put(Object key, Object value) {
 		synchronized (cache) {// LinkedHashMap 是非线程安全的
 			cache.put(key, value);
 		}
 	}
 
-	@Override
 	public Object get(Object key) {
 		synchronized (cache) {// LinkedHashMap 是非线程安全的
 			return cache.get(key);
