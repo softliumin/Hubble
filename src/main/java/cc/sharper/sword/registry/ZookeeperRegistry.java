@@ -1,6 +1,10 @@
 package cc.sharper.sword.registry;
 
+import java.util.List;
+
 import cc.sharper.sword.common.URL;
+
+import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.ZkClient;
 
 /**
@@ -62,4 +66,22 @@ public class ZookeeperRegistry implements Registry {
             e.printStackTrace();
         }
     }
+
+
+	@Override
+	public void subscribe(URL url) {
+		zkClient.subscribeChildChanges(url.getPath(), new IZkChildListener() {
+			@Override
+			public void handleChildChange(String path, List<String> children)
+					throws Exception {
+			}
+		});
+	}
+
+
+	@Override
+	public void unsubscribe(URL url) {
+		// TODO Auto-generated method stub
+		
+	}
 }
