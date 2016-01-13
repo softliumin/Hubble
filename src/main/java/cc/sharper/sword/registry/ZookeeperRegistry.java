@@ -1,11 +1,10 @@
 package cc.sharper.sword.registry;
 
-import java.util.List;
-
 import cc.sharper.sword.common.URL;
-
 import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.ZkClient;
+
+import java.util.List;
 
 /**
  * Created by lizhitao on 16-1-4.
@@ -52,36 +51,25 @@ public class ZookeeperRegistry implements Registry {
         }
     }
 
-    public static void main(String[] args) {
-        ZookeeperRegistry registry = new ZookeeperRegistry();
-        URL url = new URL();
-        url.setHost("loalhost");
-        url.setPath("rpc.test.TestService");
-        url.setPort(12222);
-        registry.register(url);
-        try {
-            Thread.sleep(10000);
-            registry.destroy();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public boolean isAvailable() {
+        return true;
+    }
+
+    public void subscribe(URL url) {
+        zkClient.subscribeChildChanges(url.getPath(), new IZkChildListener() {
+            public void handleChildChange(String path, List<String> children)
+                    throws Exception {
+
+            }
+        });
     }
 
 
-	@Override
-	public void subscribe(URL url) {
-		zkClient.subscribeChildChanges(url.getPath(), new IZkChildListener() {
-			@Override
-			public void handleChildChange(String path, List<String> children)
-					throws Exception {
-			}
-		});
-	}
+    public void unsubscribe(URL url) {
+        zkClient.unsubscribeChildChanges(url.getPath(), new IZkChildListener() {
+            public void handleChildChange(String s, List<String> list) throws Exception {
 
-
-	@Override
-	public void unsubscribe(URL url) {
-		// TODO Auto-generated method stub
-		
-	}
+            }
+        });
+    }
 }

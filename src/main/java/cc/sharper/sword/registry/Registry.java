@@ -15,4 +15,6 @@ public interface Registry {
 	void unsubscribe(URL url);
 
 	void destroy();
+
+	boolean isAvailable();
 }
