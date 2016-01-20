@@ -9,6 +9,7 @@ import cc.sharper.util.Result;
 import cc.sharper.util.SqlMapper;
 import cc.sharper.util.interceptor.Page;
 import com.alibaba.fastjson.JSON;
+import org.apache.log4j.Logger;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +53,7 @@ public class LoginController extends BaseController
         return "/index/main";
     }
 
+    private static Logger log = Logger.getLogger(LoginController.class);
 
 
     @RequestMapping("/showUser")
@@ -142,6 +144,9 @@ public class LoginController extends BaseController
     {
         try
         {
+            log.info("=======================================");
+            log.error("---------------------------------------");
+            System.out.println("11111111111111111111111");
             User user= new User();
             user.setAge(16);
             user.setAddress("北京大兴区");
@@ -159,7 +164,6 @@ public class LoginController extends BaseController
             if(result.isSuccess())
             {
                 model.addAttribute("list",result.getData());
-                System.out.println(JSON.toJSONString(result.getData()));
                 model.addAttribute("page",page);
             }
 
@@ -189,7 +193,6 @@ public class LoginController extends BaseController
 //            SqlMapper sqlMapper = new SqlMapper(sqlSession);
 //
 //            int num =  sqlMapper.update(sql);
-//            System.out.println("============"+num);
 
 
 

@@ -5,5 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.sharper.cc/sword http://www.sharper.cc/sword/sword.xsd">
-    <rpc:provider id="testRpc" interface="rpc.test.TestService" ref="testServiceImpl"/>
+    <bean id="testServiceImpl" class="cc.sharper.sword.test.TestServiceImpl"/>
+    <rpc:provider id="testRpc" interface="cc.sharper.sword.test.TestService" ref="testServiceImpl"/>
+
 </beans>
