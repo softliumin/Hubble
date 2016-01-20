@@ -114,7 +114,6 @@ public class UserServiceImpl implements UserService
                         {
                             //数据放入缓存
                             String ss=  RedisUtil.getClient().set("user-"+user.getId(), JSON.toJSONString(user));
-                            System.out.println(ss);
                         }else
                         {
                             transactionStatus.setRollbackOnly();

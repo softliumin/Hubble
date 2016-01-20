@@ -146,6 +146,7 @@ public class LoginController extends BaseController
         {
             log.info("=======================================");
             log.error("---------------------------------------");
+            System.out.println("11111111111111111111111");
             User user= new User();
             user.setAge(16);
             user.setAddress("北京大兴区");
@@ -163,7 +164,6 @@ public class LoginController extends BaseController
             if(result.isSuccess())
             {
                 model.addAttribute("list",result.getData());
-                System.out.println(JSON.toJSONString(result.getData()));
                 model.addAttribute("page",page);
             }
 
@@ -193,7 +193,6 @@ public class LoginController extends BaseController
 //            SqlMapper sqlMapper = new SqlMapper(sqlSession);
 //
 //            int num =  sqlMapper.update(sql);
-//            System.out.println("============"+num);
 
 
 
