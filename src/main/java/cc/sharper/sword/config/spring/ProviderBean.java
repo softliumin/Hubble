@@ -1,5 +1,6 @@
 package cc.sharper.sword.config.spring;
 
+import cc.sharper.sword.config.ProviderConfig;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
@@ -8,6 +9,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import java.io.Serializable;
@@ -16,9 +18,10 @@ import java.lang.reflect.Method;
 /**
  * Created by lizhitao on 16-1-13.
  */
-public class ProviderBean<T> implements InitializingBean, ApplicationContextAware, DisposableBean, ApplicationListener, BeanNameAware, Serializable {
+public class ProviderBean<T> extends ProviderConfig<T> implements InitializingBean, ApplicationContextAware, DisposableBean, ApplicationListener, BeanNameAware, Serializable {
     private transient ApplicationContext applicationContext;
     private transient boolean supportedApplicationListener;
+    private transient String beanName;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -46,12 +49,14 @@ public class ProviderBean<T> implements InitializingBean, ApplicationContextAwar
 
     @Override
     public void onApplicationEvent(ApplicationEvent applicationEvent) {
+        if (applicationEvent instanceof ContextRefreshedEvent){
 
+        }
     }
 
     @Override
-    public void setBeanName(String s) {
-
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 
     @Override
