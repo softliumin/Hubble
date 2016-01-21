@@ -9,8 +9,9 @@ import cc.sharper.util.Result;
 import cc.sharper.util.SqlMapper;
 import cc.sharper.util.interceptor.Page;
 import com.alibaba.fastjson.JSON;
-import org.apache.log4j.Logger;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by liumin3 on 2015/12/22.
@@ -53,8 +55,7 @@ public class LoginController extends BaseController
         return "/index/main";
     }
 
-    private static Logger log = Logger.getLogger(LoginController.class);
-
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     @RequestMapping("/showUser")
     public String  showUser(Model model,User user)
@@ -144,12 +145,17 @@ public class LoginController extends BaseController
     {
         try
         {
-            log.info("=======================================");
-            log.error("---------------------------------------");
+            log.info("=================info======================");
+            log.error("-----------------error----------------------");
+            //int sWs = 7/0;
+
+
             System.out.println("11111111111111111111111");
+
+
             User user= new User();
-            user.setAge(16);
-            user.setAddress("北京大兴区");
+//            user.setAge(16);
+//            user.setAddress("北京大兴区");
             Page page = new Page();
             String pagreNum =  request.getParameter("pageNum");
             if (pagreNum == null)
@@ -199,17 +205,19 @@ public class LoginController extends BaseController
 
             User user  = new User();
             user.setAge(12);
+            user.setNickname("shabi");
             user.setAddress("亦庄");
-            user.setEmail("11@qq.com");
-            user.setId("8542");
+            user.setEmail("11wewe@qq.com");
+            user.setId(UUID.randomUUID().toString());
+            user.setId("3d2dffab-05ef-4062-af3f-52253d34b976");
             user.setJob("PE");
-            user.setTel("15929476892");
+            user.setTel("18670656767");
             userService.addUser(user);
             //sqlMapper.selectList(sql2);
-
         }catch (Exception e)
         {
             e.printStackTrace();
+            log.error("直接使用sql字符串来对数据库的操作出现异常",e);
         }
         return  "/user/usrSqlString";
     }
