@@ -198,6 +198,15 @@
         </dependency>
 
 
+        <!-- 关于quartz-->
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+
+
     </dependencies>
     <build>
         <finalName>AngularJSDemo</finalName>
