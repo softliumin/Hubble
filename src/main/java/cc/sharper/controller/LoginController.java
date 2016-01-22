@@ -189,6 +189,12 @@ public class LoginController extends BaseController
     {
         try
         {
+
+            //============================================================================
+
+
+
+            //===============================================================================
 //            String type = request.getParameter("sqlType");
 //            String sql = request.getParameter("sql");
 
@@ -209,7 +215,7 @@ public class LoginController extends BaseController
             user.setAddress("亦庄");
             user.setEmail("11wewe@qq.com");
             user.setId(UUID.randomUUID().toString());
-            user.setId("3d2dffab-05ef-4062-af3f-52253d34b976");
+            //user.setId("3d2dffab-05ef-4062-af3f-52253d34b976");
             user.setJob("PE");
             user.setTel("18670656767");
             userService.addUser(user);
