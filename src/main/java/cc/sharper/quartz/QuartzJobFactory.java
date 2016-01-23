@@ -9,7 +9,7 @@ import org.quartz.JobExecutionException;
  * Created by liumin3 on 2016/1/22.
  */
 
-@DisallowConcurrentExecution
+//@DisallowConcurrentExecution
 public class QuartzJobFactory implements Job
 {
 
