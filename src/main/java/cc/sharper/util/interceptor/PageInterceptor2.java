@@ -54,14 +54,12 @@ public class PageInterceptor2 implements Interceptor
 //            String pageSql = sql + " limit " + page.getDbIndex() + "," + page.getDbNumber();
 //            metaObject.setValue("delegate.boundSql.sql", pageSql);
 //        }
-        System.out.println("query  interceptor");
 
         return invocation.proceed();
     }
 
     public Object plugin(Object target)
     {
-        System.out.println(this.test);
         return Plugin.wrap(target, this);
     }
 

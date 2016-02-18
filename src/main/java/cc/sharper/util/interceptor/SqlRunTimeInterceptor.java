@@ -12,6 +12,7 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.apache.log4j.Logger;
 import redis.clients.jedis.Jedis;
 
 import java.text.DateFormat;
@@ -30,6 +31,8 @@ import java.util.Properties;
 })
 public class SqlRunTimeInterceptor implements Interceptor
 {
+    private static Logger log = Logger.getLogger(SqlRunTimeInterceptor.class);
+
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public Object intercept(Invocation invocation) throws Throwable
     {
@@ -48,11 +51,9 @@ public class SqlRunTimeInterceptor implements Interceptor
         Object result = invocation.proceed();
         long end = System.currentTimeMillis();
         long timing = end - start;
-        System.out.println();
-        System.out.println("耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
+        log.info("耗时：" + timing + " ms" + " - id:" + statementId + " - Sql:" + sql);
         Jedis redis = RedisUtil.getClient();
         redis.zadd("sqltime2",timing,sql);
-        System.out.println();
         return result;
     }
 

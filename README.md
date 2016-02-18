@@ -19,6 +19,10 @@
 
 ## （5） 对于mysql源代码的研究（单独新建项目）
 
+## （6）logback的使用
+
+ [logback配置官网](http://logback.qos.ch/manual/)
+
 
 
 > 1和2按照计划在12月27号完成

@@ -9,6 +9,8 @@ import cc.sharper.util.ResultCodeEnum;
 import cc.sharper.util.interceptor.Page;
 import cc.sharper.util.redis.RedisUtil;
 import com.alibaba.fastjson.JSON;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
@@ -32,6 +34,8 @@ public class UserServiceImpl implements UserService
 
     @Resource
     private TransactionTemplate transactionTemplate;
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public Result<Pagination<User>> list(User user)
     {
@@ -114,7 +118,6 @@ public class UserServiceImpl implements UserService
                         {
                             //数据放入缓存
                             String ss=  RedisUtil.getClient().set("user-"+user.getId(), JSON.toJSONString(user));
-                            System.out.println(ss);
                         }else
                         {
                             transactionStatus.setRollbackOnly();
@@ -125,6 +128,7 @@ public class UserServiceImpl implements UserService
                     {
                         transactionStatus.setRollbackOnly();
                         e.printStackTrace();
+                        log.error("直接使用sql字符串来对数据库的操作出现异常",e);
                     }
                 }
 
